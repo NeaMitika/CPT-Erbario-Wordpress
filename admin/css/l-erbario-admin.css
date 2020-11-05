@@ -1,0 +1,21 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+ 
+ /* Custom Icon per il Custom Post Type */
+ @font-face {
+   font-family: 'Erbario';
+   src: url('../fonts/Erbario.eot');
+   src: url('../fonts/Erbario.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/Erbario.woff') format('woff'),
+        url('../fonts/Erbario.ttf') format('truetype'),
+        url('../fonts/Erbario.svg#Erbario') format('svg');
+   font-weight: normal;
+   font-style: normal;
+}
+
+.dashicons-erbario:before{
+   content:'\0041';
+   font-family: 'Erbario';
+}
