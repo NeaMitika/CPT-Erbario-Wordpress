@@ -164,8 +164,6 @@ class L_Erbario {
 		$this->loader->add_action( 'init', $plugin_admin, 'create_genere_taxonomy', 1 );
 		$this->loader->add_action( 'init', $plugin_admin, 'create_famiglia_taxonomy', 1 );
 
-		$this->loader->add_action( 'activated_plugin', $plugin_admin, 'aggiorna_permalinks', 10, 2 );
-
 		// Salva le informazioni dei metabox 
 		$this->loader->add_action( 'save_post', $plugin_admin, 'save_informazioni_aggiuntive_meta_box_data' );
 
