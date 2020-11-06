@@ -422,10 +422,4 @@ class L_Erbario_Admin {
 		return $template;
 	}
 
-	public function aggiorna_permalinks( $plugin_dir ) {
-
-		$plugin_dir = plugin_dir_path(__FILE__).'l-erbario.php';
-		flush_rewrite_rules();
-	}
-
 }
