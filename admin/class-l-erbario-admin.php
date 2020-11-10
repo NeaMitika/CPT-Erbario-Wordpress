@@ -202,6 +202,8 @@ class L_Erbario_Admin {
 			'title' 		=> __( 'Pianta', $this->plugin_name ),
 			'genere'		=> __( 'Genere', $this->plugin_name ),
 			'famiglia'  	=> __( 'Famiglia', $this->plugin_name ),
+			'dominio' 	 	=> __( 'Dominio', $this->plugin_name ),
+			'regno' 	 	=> __( 'Regno', $this->plugin_name ),
 			);
 
 		return $columns;
@@ -210,44 +212,134 @@ class L_Erbario_Admin {
 
 	//inserisci i dati nelle colonne
 	public function dati_colonne_erbario( $column, $post_id ) {
-		// Image column
-		if ( $column === 'foto' ) {
-			if ( ! get_the_post_thumbnail() ) {
-				echo '<img src="' . esc_url( plugins_url( '/img/image-placeholder.jpg', __FILE__ ) ) . '" />';
-			}
 
-			else {
-				echo get_the_post_thumbnail( $post_id, array( 80, 80 ) );
-			}
-		}
+		switch($column) {
 
-		// Colonna Genere
-		if ( 'genere' === $column ) {
+			case 'foto' :
 
-			if (get_the_terms( get_the_ID(), 'genere'  )) {
-				foreach ( get_the_terms( get_the_ID(), 'genere' ) as $genere ) {
-					echo __($genere->name) . ' ' ;
+				if ( ! get_the_post_thumbnail() ) {
+					echo '<img src="' . esc_url( plugins_url( '/img/image-placeholder.jpg', __FILE__ ) ) . '" />';
+				}	
+				else {
+					echo get_the_post_thumbnail( $post_id, array( 80, 80 ) );
 				}
-			}
-			
-			else {
-				echo 'n/d';
-			}
-		}
 
-		// Colonna Famiglia
-		if ( 'famiglia' === $column ) {
+			break;
 
-			if (get_the_terms( get_the_ID(), 'famiglia'  )) {
-				foreach ( get_the_terms( get_the_ID(), 'famiglia' ) as $famiglia ) {
-					echo __($famiglia->name) . ' ' ;
+			case 'genere' :
+
+				$generi = get_the_terms( $post_id, 'genere' );
+
+
+				if ( !empty ( $generi ) ) {
+
+					$lista_generi = array();
+
+					foreach ( $generi as $genere ) {
+
+						$lista_generi[] = sprintf( '<a href="%s">%s</a>',
+							esc_url( add_query_arg( array( 'taxonomy' => $genere->taxonomy, 'post_type' => 'pianta' ), 'edit-tags.php' ) ),
+							esc_html( sanitize_term_field( 'name', $genere->name, $genere->term_id, 'genere', 'display' ) )
+						);
+
+					}
+
+					echo join( ', ', $lista_generi );
 				}
-			}
-			
-			else {
-				echo 'n/d';
-			}
+
+				else{
+
+					_e( 'Nessun Genere' );
+
+				}
+			break;
+
+			case 'famiglia' :
+				
+				$famiglie = get_the_terms( $post_id, 'famiglia' );
+
+				if ( !empty ($famiglie) ) {
+
+					$lista_famiglie = array();
+
+					foreach ( $famiglie as $famiglia ) {
+
+						$lista_famiglie[] = sprintf( '<a href="%s">%s</a>',
+							esc_url( add_query_arg( array( 'taxonomy' => $famiglia->taxonomy, 'post_type' => 'pianta' ), 'edit-tags.php' ) ),
+							esc_html( sanitize_term_field( 'name', $famiglia->name, $famiglia->term_id, 'famiglia', 'display' ) )
+						);
+
+					}
+
+					echo join( ', ', $lista_famiglie );
+				}
+
+				else {
+
+					_e( 'Nessuna Famiglia' );
+
+				}
+			break;
+
+			case 'dominio' :
+				
+				$domini = get_the_terms( $post_id, 'dominio' );
+
+				if ( !empty ($domini) ) {
+
+					$lista_domini = array();
+
+					foreach ( $domini as $dominio ) {
+
+						$lista_domini[] = sprintf( '<a href="%s">%s</a>',
+							esc_url( add_query_arg( array( 'taxonomy' => $dominio->taxonomy, 'post_type' => 'pianta' ), 'edit-tags.php' ) ),
+							esc_html( sanitize_term_field( 'name', $dominio->name, $domini->term_id, 'dominio', 'display' ) )
+						);
+
+					}
+
+					echo join( ', ', $lista_domini );
+				}
+
+				else {
+
+					_e( 'Nessun Dominio' );
+
+				}
+			break;
+
+			case 'regno' :
+				
+				$regni = get_the_terms( $post_id, 'regno' );
+
+				if ( !empty ($regni) ) {
+
+					$lista_regni = array();
+
+					foreach ( $regni as $regno ) {
+
+						$lista_regni[] = sprintf( '<a href="%s">%s</a>',
+							esc_url( add_query_arg( array( 'taxonomy' => $regno->taxonomy, 'post_type' => 'pianta' ), 'edit-tags.php' ) ),
+							esc_html( sanitize_term_field( 'name', $regno->name, $regno->term_id, 'regno', 'display' ) )
+						);
+
+					}
+
+					echo join( ', ', $lista_regni );
+				}
+
+				else {
+
+					_e( 'Nessun Regno' );
+
+				}
+			break;
+
+			default :
+			break;		
+
 		}
+
 	}	
 
 	/**
@@ -352,7 +444,7 @@ class L_Erbario_Admin {
 	}
 
 	/**
-	 * Crea sezione come le categorie 
+	 * Crea categorie per Generi di piante
 	 */	
 	public function create_genere_taxonomy() {
 		
@@ -367,7 +459,7 @@ class L_Erbario_Admin {
 			'update_item' => __( 'Aggiorna Genere' ),
 			'add_new_item' => __( 'Aggiungi nuovo Genere' ),
 			'new_item_name' => __( 'Nuovo Genere' ),
-			'menu_name' => __( 'Genere pianta' ),
+			'menu_name' => __( 'Genere Pianta' ),
 		);    
 		
 		// Now register the taxonomy
@@ -383,8 +475,8 @@ class L_Erbario_Admin {
 		
 	}
 
-		/**
-	 * Crea sezione come le categorie 
+	/**
+	 * Crea categorie per Famiglie di piante
 	 */	
 	public function create_famiglia_taxonomy() {
 		
@@ -414,6 +506,71 @@ class L_Erbario_Admin {
 		));
 		
 	}
+
+	/**
+	 * Crea categorie per Domini di piante
+	 */	
+	public function create_dominio_taxonomy() {
+		
+		$labels = array(
+			'name' => _x( 'Dominio', 'dominio' ),
+			'singular_name' => _x( 'Dominio', 'dominio' ),
+			'search_items' =>  __( 'Cerca dominio' ),
+			'all_items' => __( 'Tutte i domini' ),
+			'parent_item' => __( 'Genitore dominio' ),
+			'parent_item_colon' => __( 'Genitore Dominio:' ),
+			'edit_item' => __( 'Modifica Dominio' ), 
+			'update_item' => __( 'Aggiorna Dominio' ),
+			'add_new_item' => __( 'Aggiungi nuovo Dominio' ),
+			'new_item_name' => __( 'Nuovo Dominio' ),
+			'menu_name' => __( 'Dominio Pianta' ),
+		);    
+		
+		// Now register the taxonomy
+		register_taxonomy('dominio', array('pianta'), array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_in_rest' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'dominio' ),
+		));
+		
+	}
+
+	/**
+	 * Crea categorie per Regni di piante
+	 */	
+	public function create_regno_taxonomy() {
+		
+		$labels = array(
+			'name' => _x( 'Regno', 'regno' ),
+			'singular_name' => _x( 'Regno', 'regno' ),
+			'search_items' =>  __( 'Cerca regno' ),
+			'all_items' => __( 'Tutte i regni' ),
+			'parent_item' => __( 'Genitore regno' ),
+			'parent_item_colon' => __( 'Genitore Regno:' ),
+			'edit_item' => __( 'Modifica Regno' ), 
+			'update_item' => __( 'Aggiorna Regno' ),
+			'add_new_item' => __( 'Aggiungi nuovo Regno' ),
+			'new_item_name' => __( 'Nuovo Regno' ),
+			'menu_name' => __( 'Regno Pianta' ),
+		);    
+		
+		// Now register the taxonomy
+		register_taxonomy('regno', array('pianta'), array(
+			'hierarchical' => true,
+			'labels' => $labels,
+			'show_ui' => true,
+			'show_in_rest' => true,
+			'show_admin_column' => true,
+			'query_var' => true,
+			'rewrite' => array( 'slug' => 'regno' ),
+		));
+		
+	}
+
 
 	/**
 	 * Custom Post Template per il nostro CPT 'pianta'

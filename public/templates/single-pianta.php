@@ -37,6 +37,26 @@
 			}
 		?>
 	</ul>
+	
+	<ul>
+		<?php
+			if (get_the_terms( get_the_ID(), 'dominio'  )) {
+				foreach ( get_the_terms( get_the_ID(), 'dominio' ) as $dominio ) {
+					echo '<li>' . __( $dominio->name ) . '</li>';
+				}
+			}
+		?>
+	</ul>
+
+	<ul>
+		<?php
+			if (get_the_terms( get_the_ID(), 'regno'  )) {
+				foreach ( get_the_terms( get_the_ID(), 'regno' ) as $regno ) {
+					echo '<li>' . __( $regno->name ) . '</li>';
+				}
+			}
+		?>
+	</ul>
 
 
 </body>

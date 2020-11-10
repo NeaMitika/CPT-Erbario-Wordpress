@@ -163,9 +163,11 @@ class L_Erbario {
 		//aggiorna permalinks
 		$this->loader->add_action( 'init', $plugin_admin, 'controllo_aggiornamento_permalinks', 2 );
 
-		// Registra le taxonomies: Genere, Famiglia
+		// Registra le taxonomies: Genere, Famiglia, Dominio, Regno
 		$this->loader->add_action( 'init', $plugin_admin, 'create_genere_taxonomy', 1 );
 		$this->loader->add_action( 'init', $plugin_admin, 'create_famiglia_taxonomy', 1 );
+		$this->loader->add_action( 'init', $plugin_admin, 'create_dominio_taxonomy', 1 );
+		$this->loader->add_action( 'init', $plugin_admin, 'create_regno_taxonomy', 1 );
 
 		// Salva le informazioni dei metabox 
 		$this->loader->add_action( 'save_post', $plugin_admin, 'save_informazioni_aggiuntive_meta_box_data' );
