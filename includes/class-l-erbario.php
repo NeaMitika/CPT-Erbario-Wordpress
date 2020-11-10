@@ -160,6 +160,9 @@ class L_Erbario {
 		// Registra il CPT Erbario
 		$this->loader->add_action( 'init', $plugin_admin, 'custom_erbario_post_type', 0 );
 
+		//aggiorna permalinks
+		$this->loader->add_action( 'init', $plugin_admin, 'controllo_aggiornamento_permalinks', 2 );
+
 		// Registra le taxonomies: Genere, Famiglia
 		$this->loader->add_action( 'init', $plugin_admin, 'create_genere_taxonomy', 1 );
 		$this->loader->add_action( 'init', $plugin_admin, 'create_famiglia_taxonomy', 1 );

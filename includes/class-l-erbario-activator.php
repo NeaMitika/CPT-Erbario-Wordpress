@@ -31,6 +31,9 @@ class L_Erbario_Activator {
 	 */
 	public static function activate() {
 
+		if ( ! get_option( 'aggiorna_permalinks' ) ) {
+			add_option( 'aggiorna_permalinks', true );
+		}
 	}
 
 }

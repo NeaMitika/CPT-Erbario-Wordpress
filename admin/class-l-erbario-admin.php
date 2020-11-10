@@ -163,6 +163,16 @@ class L_Erbario_Admin {
 	}
 
 	/**
+	 * Aggiorna i permalinks se option_name 'aggiorna_permalinks' esiste nella tabella _options
+	 */
+	public function controllo_aggiornamento_permalinks () {
+		if (get_option( 'aggiorna_permalinks' )){
+			flush_rewrite_rules();
+			delete_option( 'aggiorna_permalinks' );
+		}
+	}
+
+	/**
 	 * Registra meta box: Descrizione Pianta, Dove Trovarla
 	 * @since	1.0.0
 	 */
