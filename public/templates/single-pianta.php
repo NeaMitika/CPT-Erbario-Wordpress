@@ -14,8 +14,8 @@
 <body>
 	
 	<h1><?php echo get_the_title( $post->ID, 'title', true ); ?></h1>
-	<h2><?php echo get_post_meta( $post->ID, '_descrizione_pianta', true ); ?></h2>
-	<h2><?php echo get_post_meta( $post->ID, '_dove_trovarla', true ); ?></h2>
+	<p><?php echo get_post_meta( $post->ID, '_descrizione_pianta', true ); ?></p>
+	<p><?php echo get_post_meta( $post->ID, '_dove_trovarla', true ); ?></p>
 	<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 
 	<ul>

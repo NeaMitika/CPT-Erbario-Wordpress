@@ -357,6 +357,7 @@ class L_Erbario_Admin {
 		$impostazioni_editor = array( 
 			'media_buttons' 	=> false,
 			'textarea_rows'		=> 10,
+			'wpautop'			=> false,
 		 );
 		wp_editor( $value, 'descrizione_pianta', $impostazioni_editor );
 	}
@@ -372,6 +373,7 @@ class L_Erbario_Admin {
 		$impostazioni_editor = array( 
 			'media_buttons' 	=> false,
 			'textarea_rows'		=> 10,
+			'wpautop'			=> false,
 		 );
 		wp_editor( $value, 'dove_trovarla', $impostazioni_editor );
 	}
@@ -432,9 +434,15 @@ class L_Erbario_Admin {
 			return;
 		}
 
+		//Sanitize user input with wp_kses(); (kses strips evil scripts) 
+		$allowed_html = wp_kses_allowed_html( 'post' );
+
+		$descrizioen_pianta = wp_kses( $_POST['descrizione_pianta'], $allowed_html );
+		$dove_trovarla = wp_kses( $_POST['dove_trovarla'], $allowed_html );
+		
 		// Sanitize user input.
-		$descrizioen_pianta = sanitize_text_field( $_POST['descrizione_pianta'] );
-		$dove_trovarla = sanitize_text_field( $_POST['dove_trovarla'] );
+		//$descrizioen_pianta = sanitize_text_field( $_POST['descrizione_pianta'] );
+		//$dove_trovarla = sanitize_text_field( $_POST['dove_trovarla'] );
 
 
 		// Update the meta field in the database.
