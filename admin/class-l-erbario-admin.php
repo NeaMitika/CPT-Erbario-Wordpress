@@ -141,7 +141,7 @@ class L_Erbario_Admin {
 			'description'           => __( 'Descrizione Erbario', $this->plugin_name ),
 			'labels'                => $labels,			
 			'menu_icon' 			=> 'dashicons-erbario',
-			'supports'              => array( 'title', 'revisions', 'thumbnail', 'post-formats'),
+			'supports'              => array( 'title', 'revisions', 'thumbnail', 'post-formats', 'custom-fields'),
 			'hierarchical'          => true,
 			'public'                => true,
 			'show_ui'               => true,
@@ -173,7 +173,7 @@ class L_Erbario_Admin {
 	}
 
 	/**
-	 * Registra meta box: Descrizione Pianta, Dove Trovarla
+	 * Registra meta box: Descrizione Pianta, Dove Trovarla, comestibile
 	 * @since	1.0.0
 	 */
 	public function informazioni_aggiuntive_meta_box() {
@@ -188,9 +188,7 @@ class L_Erbario_Admin {
 			'dove-trovarla-pianta',
 			__( 'Dove trovarla', $this->plugin_name ),
 			array( $this, 'dove_trovarla_meta_box_callback'),
-		);
-		
-	
+		);		
 	}
 
 	//Modifica le colonne nel backend del nostro CPT
@@ -343,7 +341,7 @@ class L_Erbario_Admin {
 	}	
 
 	/**
-	 * Registra il callback per il meta box
+	 * Registra il callback per i meta box: Descrizione Pianta, Dove Trovarla, comestibile
 	 * @since	1.0.0
 	 */
 	public function descrizione_pianta_meta_box_callback( $post ) {
